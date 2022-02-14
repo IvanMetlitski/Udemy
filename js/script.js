@@ -39,7 +39,7 @@ tabsParent.addEventListener('click', (event)=> {
 
 // Timer
 
- const deadline = '2022-02-18';
+ const deadline = '2022-02-20';
 
 function getTimeRemaining (endtime) {
     const t = Date.parse(endtime) - Date.parse(new Date()),
@@ -92,9 +92,42 @@ function setClock (selector, endtime) {
 
 setClock('.timer', deadline);
 
-    console.log('test');
+// Modal
+
+    const modalTrigger = document.querySelectorAll('[data-modal]'),
+          modal = document.querySelector('.modal'),
+          modalClose = document.querySelector('[data-close]');
+
+    modalTrigger.forEach((btn )=> {
+        btn.addEventListener('click', () => {
+        modal.classList.add('show');
+        modal.classList.remove('hide');
+        document.body.style.overflow = 'hidden';
+    })
+    })
+    function closeBlock () {
+        modal.classList.add('hide');
+        modal.classList.remove('show');
+        document.body.style.overflow = '';
+    }
+
+    modalClose.addEventListener('click', () => {
+        closeBlock()
+    })
+
+    modal.addEventListener('click', (event)=> {
+        if (event.target === modal) {
+            closeBlock()
+        }
+    })
+    document.addEventListener('keydown', (event) => {
+        if (event.code === 'Escape' && modal.classList.contains('show')) {
+            closeBlock()
+        }
+    })
 
 })
+
 
 
 
