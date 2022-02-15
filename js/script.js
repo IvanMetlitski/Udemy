@@ -99,21 +99,24 @@ setClock('.timer', deadline);
           modalClose = document.querySelector('[data-close]');
 
     modalTrigger.forEach((btn )=> {
-        btn.addEventListener('click', () => {
+        btn.addEventListener('click', openBlock)
+    })
+
+    function openBlock () {
         modal.classList.add('show');
         modal.classList.remove('hide');
         document.body.style.overflow = 'hidden';
-    })
-    })
+        clearInterval(openBlock)
+    }
+
     function closeBlock () {
         modal.classList.add('hide');
         modal.classList.remove('show');
         document.body.style.overflow = '';
     }
 
-    modalClose.addEventListener('click', () => {
-        closeBlock()
-    })
+    modalClose.addEventListener('click',
+        closeBlock )
 
     modal.addEventListener('click', (event)=> {
         if (event.target === modal) {
@@ -125,6 +128,17 @@ setClock('.timer', deadline);
             closeBlock()
         }
     })
+
+    const timerModalId = setTimeout(openBlock, 3000);
+
+    function showModalByScroll () {
+        if (window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight) {
+            openBlock()
+            window.removeEventListener('scroll', showModalByScroll)
+        }
+    }
+
+    window.addEventListener('scroll', showModalByScroll);
 
 })
 
