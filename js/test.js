@@ -34,20 +34,32 @@
 //     console.log('Its a final countdown');
 // });
 
-const test = time => {
-    return new Promise(resolve => {
-        setTimeout(()=>resolve (), time);
-    })
-}
+// const test = time => {
+//     return new Promise(resolve => {
+//         setTimeout(()=>resolve (), time);
+//     })
+// }
 // test(1000).then(()=>console.log('1000 ms'));
 // test(2000).then(()=>console.log('2000 ms'));
 
 // Promise.all([test(1000)],[test(2000)]).then(()=>{
 //     console.log('All')
 // })
-Promise.race([test(1000)],[test(2000)]).then(()=>{
-    console.log('All')
+// Promise.race([test(1000)],[test(2000)]).then(()=>{
+//     console.log('All')
+// })
+
+//Fetch API
+
+fetch('https://jsonplaceholder.typicode.com/posts', {
+    method: 'POST',
+    body: JSON.stringify({name: 'Alex'}),
+    headers: {
+        'Content-type': 'application/json'
+    }
 })
+    .then(response => response.json())
+    .then(json => console.log(json))
 
 
 
