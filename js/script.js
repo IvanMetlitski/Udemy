@@ -89,7 +89,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     const modalTrigger = document.querySelectorAll('[data-modal]'),
         modal = document.querySelector('.modal');
-        // modalCloseBtn = document.querySelector('[data-close]');
+    // modalCloseBtn = document.querySelector('[data-close]');
 
     modalTrigger.forEach((btn) => {
         btn.addEventListener('click', openBlock)
@@ -109,7 +109,7 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     modal.addEventListener('click', (event) => {
-        if (event.target === modal || event.target.getAttribute('data-close'            )=='') {
+        if (event.target === modal || event.target.getAttribute('data-close') == '') {
             closeBlock()
         }
     })
@@ -199,22 +199,24 @@ window.addEventListener('DOMContentLoaded', () => {
         success: 'Success',
         failure: 'fail'
     }
-    forms.forEach(item=> {
+    forms.forEach(item => {
         bindPostData(item);
     })
 
-    const postData = async (url, data)=> {
+    const postData = async (url, data) => {
         const result = await fetch(url, {
             method: 'POST',
-            headers: {'Content-type':
-                    'application/json'},
+            headers: {
+                'Content-type':
+                    'application/json'
+            },
             body: data
         });
         return await result.json();
     }
 
-    function bindPostData (form) {
-        form.addEventListener('submit', (e)=> {
+    function bindPostData(form) {
+        form.addEventListener('submit', (e) => {
             e.preventDefault();
             const statusMessage = document.createElement('img');
             statusMessage.src = message.loading;
@@ -227,25 +229,25 @@ window.addEventListener('DOMContentLoaded', () => {
             // request.setRequestHeader('Content-type', 'multipart/form-data');
             const formData = new FormData(form);
 
-           const json = JSON.stringify(Object.fromEntries(formData.entries()));
+            const json = JSON.stringify(Object.fromEntries(formData.entries()));
 
             // request.send(json);
 
             postData('http://localhost:3000/requests\n', json)
-                .then(data=>{
-                console.log(data);
-                showThanksModal(message.success);
-                form.reset();
-                statusMessage.remove();
-            }).catch(()=> {
+                .then(data => {
+                    console.log(data);
+                    showThanksModal(message.success);
+                    form.reset();
+                    statusMessage.remove();
+                }).catch(() => {
                 showThanksModal(message.failure)
-            }).finally(()=> {
+            }).finally(() => {
                 form.reset();
             });
         })
     }
 
-    function showThanksModal (message) {
+    function showThanksModal(message) {
         const prevModalDialog = document.querySelector('.modal__dialog');
         prevModalDialog.classList.add('hide');
         openBlock();
@@ -260,38 +262,40 @@ window.addEventListener('DOMContentLoaded', () => {
         `;
 
         document.querySelector('.modal').append(thanksModal);
-        setTimeout(()=> {
+        setTimeout(() => {
             thanksModal.remove();
             prevModalDialog.classList.add('show');
             prevModalDialog.classList.remove('hide');
             closeBlock();
-        },4000);
+        }, 4000);
     }
+
     fetch(' http://localhost:3000/menu\n')
-        .then(data=> data.json())
-        // .then(item=> console.log(item))
+        .then(data => data.json())
+    // .then(item=> console.log(item))
 
     // Slider
 
     const sliderImg = document.querySelectorAll('.offer__slide'),
-          sliderPrev = document.querySelector('.offer__slider-prev'),
-          sliderNext = document.querySelector('.offer__slider-next'),
-          sliderCurrent = document.querySelector('#current'),
-          sliderTotal = document.querySelector('#total'),
-          sliderWrapper = document.querySelector('.offer__slider-wrapper'),
-          sliderField = document.querySelector('.offer__slider-inner'),
-          width = window.getComputedStyle(sliderWrapper).width;
+        slider = document.querySelector('.offer__slider'),
+        sliderPrev = document.querySelector('.offer__slider-prev'),
+        sliderNext = document.querySelector('.offer__slider-next'),
+        sliderCurrent = document.querySelector('#current'),
+        sliderTotal = document.querySelector('#total'),
+        sliderWrapper = document.querySelector('.offer__slider-wrapper'),
+        sliderField = document.querySelector('.offer__slider-inner'),
+        width = window.getComputedStyle(sliderWrapper).width;
 
     let sliderIndex = 1;
     let offset = 0;
 
     if (sliderImg.length < 10) {
-            sliderTotal.textContent = `0${sliderImg.length}`;
-            sliderCurrent.textContent = `0${sliderIndex}`
-        } else {
-            sliderTotal.textContent = 'sliderImg.length';
+        sliderTotal.textContent = `0${sliderImg.length}`;
+        sliderCurrent.textContent = `0${sliderIndex}`
+    } else {
+        sliderTotal.textContent = 'sliderImg.length';
         sliderCurrent.textContent = sliderIndex;
-        }
+    }
 
     sliderField.style.width = 100 * sliderImg.length + '%';
     sliderField.style.display = 'flex';
@@ -302,8 +306,54 @@ window.addEventListener('DOMContentLoaded', () => {
         slide.style.width = width;
     });
 
-    sliderNext.addEventListener('click', ()=> {
-        if (offset == +width.slice(0, width.length - 2) * (sliderImg.length -1)) {
+    slider.style.position = 'relative';
+
+    const indicators = document.createElement('ol');
+    let dots = [];
+    indicators.classList.add('carousel-indicators');
+    indicators.style.cssText = `
+        position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 15;
+    display: flex;
+    justify-content: center;
+    margin-right: 15%;
+    margin-left: 15%;
+    list-style: none;
+    `;
+    slider.append(indicators);
+
+
+    for (let i = 0; i < sliderImg.length; i++) {
+        const dot = document.createElement('li');
+        dot.setAttribute('data-slide-to', i + 1);
+        dot.style.cssText = `
+        box-sizing: content-box;
+    flex: 0 1 auto;
+    width: 30px;
+    height: 6px;
+    margin-right: 3px;
+    margin-left: 3px;
+    cursor: pointer;
+    background-color: #fff;
+    background-clip: padding-box;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    opacity: .5;
+    transition: opacity .6s ease;
+        `;
+
+        if (i == 0) {
+            dot.style.opacity = 1;
+        }
+        indicators.append(dot);
+        dots.push(dot);
+    };
+
+    sliderNext.addEventListener('click', () => {
+        if (offset == +width.slice(0, width.length - 2) * (sliderImg.length - 1)) {
             offset = 0;
         } else {
             offset += +width.slice(0, width.length - 2);
@@ -321,11 +371,14 @@ window.addEventListener('DOMContentLoaded', () => {
         } else {
             sliderCurrent.textContent = sliderIndex;
         }
+        dots.forEach(dot => dot.style.opacity = '.5');
+            dots[sliderIndex - 1].style.opacity = '1';
+
     })
 
-    sliderPrev.addEventListener('click', ()=> {
+    sliderPrev.addEventListener('click', () => {
         if (offset == 0) {
-            offset = +width.slice(0, width.length - 2) * (sliderImg.length -1);
+            offset = +width.slice(0, width.length - 2) * (sliderImg.length - 1);
         } else {
             offset -= +width.slice(0, width.length - 2);
         }
@@ -341,6 +394,24 @@ window.addEventListener('DOMContentLoaded', () => {
         } else {
             sliderCurrent.textContent = sliderIndex;
         }
+        dots.forEach(dot => dot.style.opacity = '.5');
+        dots[sliderIndex - 1].style.opacity = '1';
+
+    })
+    dots.forEach(dot => {
+        dot.addEventListener('click', (event) => {
+            const slideTo = event.target.getAttribute('data-slide-to');
+            sliderIndex = slideTo;
+            offset = +width.slice(0, width.length - 2) * (slideTo - 1);
+            sliderField.style.transform = `translateX(-${offset}px`;
+
+            if (sliderImg.length < 10) {
+                sliderTotal.textContent = `0${sliderImg.length}`;
+                sliderCurrent.textContent = `0${sliderIndex}`
+            };
+            dots.forEach(dot => dot.style.opacity = '.5');
+            dots[sliderIndex - 1].style.opacity = '1';
+        })
     })
 
     // showSlides(sliderIndex);
