@@ -286,6 +286,10 @@ window.addEventListener('DOMContentLoaded', () => {
         sliderField = document.querySelector('.offer__slider-inner'),
         width = window.getComputedStyle(sliderWrapper).width;
 
+    function deleteDigits(string) {
+        return +string.replace(/\D/g, '');
+    }
+
     let sliderIndex = 1;
     let offset = 0;
 
@@ -353,10 +357,10 @@ window.addEventListener('DOMContentLoaded', () => {
     };
 
     sliderNext.addEventListener('click', () => {
-        if (offset == +width.slice(0, width.length - 2) * (sliderImg.length - 1)) {
+        if (offset == deleteDigits(width) * (sliderImg.length - 1)) {
             offset = 0;
         } else {
-            offset += +width.slice(0, width.length - 2);
+            offset += deleteDigits(width);
         }
         sliderField.style.transform = `translateX(-${offset}px`;
 
@@ -378,9 +382,9 @@ window.addEventListener('DOMContentLoaded', () => {
 
     sliderPrev.addEventListener('click', () => {
         if (offset == 0) {
-            offset = +width.slice(0, width.length - 2) * (sliderImg.length - 1);
+            offset = deleteDigits(width) * (sliderImg.length - 1);
         } else {
-            offset -= +width.slice(0, width.length - 2);
+            offset -= deleteDigits(width);
         }
         sliderField.style.transform = `translateX(-${offset}px`;
 
@@ -402,7 +406,7 @@ window.addEventListener('DOMContentLoaded', () => {
         dot.addEventListener('click', (event) => {
             const slideTo = event.target.getAttribute('data-slide-to');
             sliderIndex = slideTo;
-            offset = +width.slice(0, width.length - 2) * (slideTo - 1);
+            offset =deleteDigits(width) * (slideTo - 1);
             sliderField.style.transform = `translateX(-${offset}px`;
 
             if (sliderImg.length < 10) {

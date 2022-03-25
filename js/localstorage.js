@@ -24,4 +24,4 @@ const person = {
 
 const searilizedPerson = JSON.stringify(person);
 localStorage.setItem('Alex', searilizedPerson);
-console.log(JSON.parse(localStorage.getItem('Alex')));
+// console.log(JSON.parse(localStorage.getItem('Alex')));
