@@ -467,8 +467,6 @@ window.addEventListener('DOMContentLoaded', () => {
         sex = 'female';
         localStorage.setItem('sex', 'female');
     }
-
-
     if (localStorage.getItem('ratio')) {
         ratio = localStorage.getItem('ratio');
     } else {
@@ -511,7 +509,7 @@ window.addEventListener('DOMContentLoaded', () => {
         elements.forEach(elem => {
             elem.addEventListener('click', (event) => {
                 if (event.target.getAttribute('data-ratio')) {
-                    ratio = +event.target.getAttribute('data-ratio');
+                    ratio = event.target.getAttribute('data-ratio');
                     localStorage.setItem('ratio', event.target.getAttribute('data-ratio'))
                 } else {
                     sex = event.target.getAttribute('id');
