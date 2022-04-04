@@ -5,26 +5,47 @@
 
 'use strict'
 
-class User {
-    constructor(name, age) {
-        this.name = name;
-        this._age = age;
-        // this.age = age;
-    }
-    #surname = 'Metlitski';
+// class User {
+//     constructor(name, age) {
+//         this.name = name;
+//         this._age = age;
+//         // this.age = age;
+//     }
+//     #surname = 'Metlitski';
+//
+//     say() {
+//         console.log(`User name ${this.name}, User surname ${this.#surname}, user age ${this._age}`);
+//     }
+//     get surname () {
+//         return this.#surname;
+//     }
+//     set surname(surname) {
+//         return this.#surname = surname;
+//     }
+//
+// }
+// const ivan = new User('Ivan', 30);
+// console.log(ivan.surname);
+//
+// ivan.say();
 
-    say() {
-        console.log(`User name ${this.name}, user age ${this._age}`);
-    }
-    get surname () {
-        return this.#surname;
-    }
-    set surname(surname) {
-        return this.#surname = surname;
-    }
+// Module
+const number = 1;
 
-}
-const ivan = new User('Ivan', 30);
-console.log(ivan.surname);
+(function (){
+    let number = 2;
+    console.log(number);
+    console.log(number + 3);
+}())
 
-ivan.say();
+console.log(number);
+
+const user = (function(){
+    const privat = function() {
+        console.log('Im private!');
+    };
+    return {
+        sayHello: privat
+    };
+}())
+user.sayHello();
