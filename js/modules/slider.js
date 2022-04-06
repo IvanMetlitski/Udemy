@@ -1,14 +1,14 @@
-function slider() {
+function slider({container, slide, nextArrow, prevArrow, totalCounter, currentCounter, wrapper, field}) {
     // Slider
 
-    const sliderImg = document.querySelectorAll('.offer__slide'),
-        slider = document.querySelector('.offer__slider'),
-        sliderPrev = document.querySelector('.offer__slider-prev'),
-        sliderNext = document.querySelector('.offer__slider-next'),
-        sliderCurrent = document.querySelector('#current'),
-        sliderTotal = document.querySelector('#total'),
-        sliderWrapper = document.querySelector('.offer__slider-wrapper'),
-        sliderField = document.querySelector('.offer__slider-inner'),
+    const sliderImg = document.querySelectorAll(slide),
+        slider = document.querySelector(container),
+        sliderPrev = document.querySelector(prevArrow),
+        sliderNext = document.querySelector(nextArrow),
+        sliderCurrent = document.querySelector(currentCounter),
+        sliderTotal = document.querySelector(totalCounter),
+        sliderWrapper = document.querySelector(wrapper),
+        sliderField = document.querySelector(field),
         width = window.getComputedStyle(sliderWrapper).width;
 
     function deleteDigits(string) {
@@ -181,4 +181,4 @@ function slider() {
     //     plusSlide(+1)
     // })
 };
-module.exports = slider;
+export default slider;
