@@ -480,11 +480,17 @@ a {
     font-size: 16px;
     font-weight: 300
 }
+.menu__item img:hover {
+    scale: 120%;
+    box-shadow: 0 4px 25px rgba(0, 0, 0, .55);
+    border-radius: 10%;
+}
 
 .menu__item img {
     width: 100%;
     height: 200px;
-    object-fit: cover
+    object-fit: cover;
+    transition: 0.5s all;
 }
 
 .menu__item-subtitle {
